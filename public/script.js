@@ -18,13 +18,11 @@ document.querySelector("#log-btn").addEventListener("click", function () {
                 email,
                 password
         }
-        console.log(data);
         fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: { "Content-type": "application/json; charset=UTF-8" }
         }).then(function (response) {
-                console.log("script");
                 return response.json();
         }).then(function (data) {
                 if(data.status==0){
@@ -37,7 +35,6 @@ document.querySelector("#log-btn").addEventListener("click", function () {
 });
 
 document.querySelector("#reg-btn").addEventListener("click", function () {
-        console.log("working");
         var name = document.querySelector("#reg-name").value;
         var email = document.querySelector("#reg-email").value;
         var phone = document.querySelector("#reg-phone").value;
@@ -56,10 +53,13 @@ document.querySelector("#reg-btn").addEventListener("click", function () {
                 body: JSON.stringify(data),
                 headers: { "Content-type": "application/json; charset=UTF-8" }
         }).then(function (response) {
-                console.log("script");
                 return response.json();
         }).then(function (data) {
                 notification(data);
+                if(data.status==0){
+                        win.style.cssText = 'left : 32%; transition: 0.25s;';
+                        forms.style.cssText = 'transform: translateX(0%);';
+                }
         })
 });
 function notification(data){

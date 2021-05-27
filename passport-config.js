@@ -1,20 +1,19 @@
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 const validator = require('validator');
 const LocalStrategy = require('passport-local').Strategy
 
 function initialize(getUserByEmail, getUserById) {
 	const authenticateUser = (email, password, done) => {
-		console.log(email);
 		if(validator.isEmail(email)){
-		getUserByEmail(email, (user) => {
-			console.log(user);
+		getUserByEmail (email, async (user) => {
 			if (user == null) {
 				return done(null, false, { 
 					status : 1,
 					message: 'No user with that email' })
 			}
-			try {
-				if (password == user.password) {
+			try {	
+				if (await bcrypt.compare(password, user.password)) {
 					return done(null, user,{ 
 						status : 0,
 						message: 'Login successfull' })
