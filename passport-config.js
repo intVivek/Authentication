@@ -1,25 +1,38 @@
-const passport = require('passport')
+const passport = require('passport');
+const validator = require('validator');
 const LocalStrategy = require('passport-local').Strategy
 
 function initialize(getUserByEmail, getUserById) {
-	console.log('5');
 	const authenticateUser = (email, password, done) => {
-		console.log('6');
+		console.log(email);
+		if(validator.isEmail(email)){
 		getUserByEmail(email, (user) => {
 			console.log(user);
 			if (user == null) {
-				return done(null, false, { message: 'No user with that email' })
+				return done(null, false, { 
+					status : 1,
+					message: 'No user with that email' })
 			}
 			try {
 				if (password == user.password) {
-					return done(null, user)
+					return done(null, user,{ 
+						status : 0,
+						message: 'Login successfull' })
 				} else {
-					return done(null, false, { message: 'Password incorrect' })
+					return done(null, false, { 
+						status : 2,
+						message: 'Password incorrect' })
 				}
 			} catch (e) {
 				return done(e)
 			}
 		});
+	}
+	else{
+		return done(null, false, { 
+			status : 3,
+			message: 'Enter a valid Email' })
+	}
 	}
 
 	passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))

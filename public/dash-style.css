@@ -17,11 +17,11 @@
 .window{
   display: flex;
   flex-direction: column;
-  width : 25%;
-  height : 60%;
+  width : 20%;
+  height : 40%;
   background-color : white;
   overflow: hidden;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
@@ -44,4 +44,26 @@
   font-size: 14px;
   text-transform: lowercase;
   text-align: center;
+  margin-bottom: 8px;
+}
+.phone{
+  font-size: 12px;
+}
+.info{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+.submit{
+  width : 70px;
+  height : 30px;
+  background-color : transparent;
+  border : 2px solid rgb(128, 128, 128);     
+  color : rgb(61, 61, 61);   
+  transition: 0.2s;
+}
+.submit:hover {
+  transform: scale(1.02);
+  transition: 0.2s;
 }

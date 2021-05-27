@@ -10,6 +10,31 @@ document.querySelector("#toggle-log").addEventListener("click", function () {
         forms.style.cssText = 'transform: translateX(0%);';
 });
 
+document.querySelector("#log-btn").addEventListener("click", function () {
+        var email = document.querySelector("#log-email").value;
+        var password = document.querySelector("#log-pass").value;
+        const url = '/login';
+        var data = {
+                email,
+                password
+        }
+        console.log(data);
+        fetch(url, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+        }).then(function (response) {
+                console.log("script");
+                return response.json();
+        }).then(function (data) {
+                if(data.status==0){
+                        window.location.replace("/dashboard");
+                }
+                else{
+                        notification(data);
+                }
+        })
+});
 
 document.querySelector("#reg-btn").addEventListener("click", function () {
         console.log("working");
@@ -26,7 +51,6 @@ document.querySelector("#reg-btn").addEventListener("click", function () {
                 pass,
                 cpass
         }
-        console.log(data);
         fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -36,64 +60,15 @@ document.querySelector("#reg-btn").addEventListener("click", function () {
                 return response.json();
         }).then(function (data) {
                 notification(data);
-                // if (data.status === 0) {
-                //         new Noty({
-                //                 type: 'success',
-                //                 theme: 'nest',
-                //                 layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                //                 timeout: 1500,
-                //                 text: 'Successfully Registered'
-                //         }).show();
-                //         win.style.cssText = 'left : 32%; transition: 0.25s;';
-                //         forms.style.cssText = 'transform: translateX(0%);';
-                // }
-                // else if (data.status === 1) {
-                //         new Noty({
-                //                 type: 'error',
-                //                 theme: 'nest',
-                //                 layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                //                 timeout: 1500,
-                //                 text: 'User already Exists'
-                //         }).show();
-                // }
-                // else if (data.status === 2) {
-                //         new Noty({
-                //                 type: 'error',
-                //                 theme: 'nest',
-                //                 layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                //                 timeout: 1500,
-                //                 text: 'Passwords do not match'
-                //         }).show();
-
-                // }
-                // else if (data.status === 3) {
-                //         new Noty({
-                //                 type: 'error',
-                //                 theme: 'nest',
-                //                 layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                //                 timeout: 1500,
-                //                 text: 'Enter a valid Phone number'
-                //         }).show();
-                // }
-                // else if (data.status === 4) {
-                //         new Noty({
-                //                 type: 'error',
-                //                 theme: 'nest',
-                //                 layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                //                 timeout: 1500,
-                //                 text: 'Enter a valid Email'
-                //         }).show();
-                // }
-                // console.log(data);
         })
-        function notification(data){
-                new Noty({
-                        type: data.status?'error':'success',
-                        theme: 'nest',
-                        layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
-                        timeout: 1500,
-                        text: data.message
-                }).show();
-        }
 });
+function notification(data){
+        new Noty({
+                type: data.status?'error':'success',
+                theme: 'nest',
+                layout: (screen.width <= 480) ? 'bottomCenter' : 'topRight',
+                timeout: 1500,
+                text: data.message
+        }).show();
+}
 

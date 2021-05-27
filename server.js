@@ -24,15 +24,15 @@ db.connect(function (err) {
 	console.log("Database Connected!");
 });
 
-var getUserByEmail = (email, done) => {
-	db.query('select id,name,email,password from users where email = ?', email, (error, results) => {
+const getUserByEmail = (email, done) => {
+	db.query('select id,name,email,password,phoneno from users where email = ?', email, (error, results) => {
 		console.log("19");
 		done(results[0]);
 	});
 }
 
 const getUserByid = (id, done) => {
-	db.query('select id,name,email,password from users where id = ?', id, (error, results) => {
+	db.query('select id,name,email,password,phoneno from users where id = ?', id, (error, results) => {
 		console.log("20");
 		done(results[0]);
 	});
@@ -45,12 +45,15 @@ app.use(flash());
 app.use(session({
 	secret: 'process.env.SESSION_SECRET',
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false,
+	cookie: {
+		maxAge : 150000
+	}
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 
 initializePassport(getUserByEmail, getUserByid);
 
@@ -59,17 +62,23 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-	res.render('index.ejs', { message: req.body })
+	res.render('index.ejs',{message :req.flash()});
 });
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-	successRedirect: '/dashboard',
-	failureRedirect: '/login',
-	failureFlash: true
-})
-);
+app.post('/login', (req, res, next) => {
+	passport.authenticate('local', (error, user, authInfo) => {
+		if (!user) return res.status(403).json(authInfo);
+
+		req.logIn(user, (err) => {
+			res.status(200).json(authInfo);
+		});
+		console.log('Output1:', error, 'Output2:', user, 'Output3:', message);
+	})(req, res, next)
+});
 
 app.get('/dashboard', checkAuthenticated, (req, res) => {
+	console.log("77");
+	console.log(req.user);
 	res.render('dashboard.ejs', {
 		user: req.user,
 		avatar: "https://avatars.dicebear.com/api/avataaars/" + req.user.email + ".svg"
@@ -128,12 +137,10 @@ app.post('/register', (req, res) => {
 	}
 });
 
-/**
-app.delete('/logout', (req, res) => {
-  req.logOut()
-  res.redirect('/login')
-})
-**/
+app.post('/logout', (req, res) => {
+  req.logOut();
+	res.redirect('/login');
+});
 
 function checkAuthenticated(req, res, next) {
 	console.log(req.isAuthenticated());
