@@ -1,0 +1,51 @@
+.text{
+        position: relative;
+        width : 80%;
+        height : 50px;
+        margin : 5% 10% ;
+        
+        border-color: rgb(141, 141, 141);
+}
+.text > input {
+        width : 100%;
+        height : 100%;
+
+        padding : 0 10px;
+        transition: 0.25s;
+        border-color: rgb(116, 116, 116);
+        border-style : solid;  
+}
+.text > input:hover{
+        transform: scale(1.02);
+}
+.text > span {
+        position : absolute;
+        left : 4%;
+        top : 30%;
+        color: rgb(90, 90, 90);
+        pointer-events: none;
+        transition: 0.2s;
+}
+.text > input:focus{
+        outline: none !important;
+        border:  2px solid rgb(33, 150, 243);
+        box-shadow:0 0 2px rgb(29, 134, 221);
+        transition:  0.25s;
+}
+.text > input:focus + span{
+        top : -6px;
+        color: rgb(33, 150, 243);
+        font-size: 12px;
+        transition: 0.2s;
+        padding : 0px 2px ;
+        background-color : white;
+}
+
+.text > input:valid + span {
+        top : -6px;
+        color: rgb(33, 150, 243);
+        font-size: 12px;
+        transition: 0.2s;
+        padding : 0px 2px ;
+        background-color : white;
+}

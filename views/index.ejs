@@ -1,0 +1,44 @@
+<html>
+        <head>  
+                <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+                <link rel="stylesheet" href="./public/style.css">
+                <link rel="stylesheet" href="./public/textfield.css">
+                <link href="//cdn.rawgit.com/needim/noty/77268c46/lib/noty.css" rel="stylesheet" type="text/css">
+        </head>
+        <body>  
+                <div class ="full">
+                        <div class = "toggle">
+                        <span class="info" id="info-log"><h4>Have an account?</h2></span>
+                        <button class=toggle-btn id="toggle-log">LOGIN</button>
+                        <span class="info"id="info-reg"><h4>Don't have an account?</h2></span>
+                        <button class=toggle-btn id="toggle-reg">REGISTER</button>
+                        </div>
+                        <div class ="window">
+                                <div class = "forms">
+                                        <div class="login">
+                                                <form action="/login" method="POST">
+                                                        <div class="text"><input id="log-email" name="email" required><span>Email</span></div>
+                                                        <div class="text"><input id="log-pass" name="password" required><span>Password</span></div>
+                                                        <button  type="submit" class="submit" id="log-btn">SUBMIT</button>
+                                                </form>
+                                        </div>
+                                        <div class ="register">
+                                                <div class="text"><input id="reg-name" name="username" required><span>Username</span></div>
+                                                <div class="text"><input id="reg-email" name="email" required><span>Email</span></div>
+                                                <div class="text"><input id="reg-phone" name="phone" required><span>Phone No</span></div>
+                                                <div class="text"><input id="reg-pass" name="pass" required><span>Password</span></div>
+                                                <div class="text"><input id="reg-cpass" name="cpass" required><span>Confirm Password</span></div>
+                                                <button class="submit" id="reg-btn">SUBMIT</button>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <script>
+                        var message = messages.error;
+                        console.log(message);
+                </script>
+                <script src="/public/script.js"></script>
+                <script src="//cdn.rawgit.com/needim/noty/77268c46/lib/noty.min.js"></script>
+        </body>
+</html>
