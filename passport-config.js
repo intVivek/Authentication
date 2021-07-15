@@ -7,6 +7,7 @@ function initialize(getUserByEmail, getUserById) {
 	const authenticateUser = (email, password, done) => {
 		if(validator.isEmail(email)){
 		getUserByEmail (email, async (user) => {
+			
 			if (user == null) {
 				return done(null, false, { 
 					status : 1,
@@ -14,6 +15,7 @@ function initialize(getUserByEmail, getUserById) {
 			}
 			try {	
 				if (await bcrypt.compare(password, user.password)) {
+					console.log('User2', user);
 					return done(null, user,{ 
 						status : 0,
 						message: 'Login successfull' })
@@ -35,7 +37,7 @@ function initialize(getUserByEmail, getUserById) {
 	}
 
 	passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
-	passport.serializeUser((user, done) => done(null, user.id))
+	passport.serializeUser((user, done) => {done(null, user.id);console.log(done);})
 	passport.deserializeUser((id, done) => getUserById(id, (res) => done(null, res)))
 } 
 
