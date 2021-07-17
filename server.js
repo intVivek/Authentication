@@ -149,4 +149,4 @@ function checkNotAuthenticated(req, res, next) {
 	next()
 };
 
-app.listen('https://fazelogin.herokuapp.com/');
+app.listen(process.env.PORT || 8080);
